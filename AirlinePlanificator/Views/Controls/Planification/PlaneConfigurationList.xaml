@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="AirlinePlanificator.Views.Controls.Planification.PlaneConfigurationList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModels="clr-namespace:AirlinePlanificator.ViewModels.FlightPlanifications"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=viewModels:PlaneConfigurationList}">
+    <WrapPanel>
+    <telerik:RadListBox ItemsSource="{Binding}" BorderThickness="0">
+            <telerik:RadListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </telerik:RadListBox.ItemsPanel>
+            <telerik:RadListBox.ItemTemplate>
+            <DataTemplate>
+                <telerik:RadComboBox 
+                    ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.AvailablePlanes}"
+                    SelectedItem="{Binding Plane}"
+                    Width="150"/>
+            </DataTemplate>
+        </telerik:RadListBox.ItemTemplate>
+        </telerik:RadListBox>
+        <TextBlock Padding="5">
+            <Hyperlink Command="{Binding RemovePlaneConfigurationCommand}">Retirer</Hyperlink>
+        </TextBlock>
+        <TextBlock Padding="5">
+            <Hyperlink Command="{Binding AddNewPlaneConfigurationCommand}">Ajouter</Hyperlink>
+        </TextBlock>
+    </WrapPanel>
+</UserControl>

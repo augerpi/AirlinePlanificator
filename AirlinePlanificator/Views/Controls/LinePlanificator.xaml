@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="AirlinePlanificator.Views.Controls.LinePlanificator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModels="clr-namespace:AirlinePlanificator.ViewModels"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:uc="clr-namespace:AirlinePlanificator.Views.Controls"
+             xmlns:ucPlanification="clr-namespace:AirlinePlanificator.Views.Controls.Planification"
+             mc:Ignorable="d" 
+             d:DesignHeight="663" d:DesignWidth="917" Loaded="UserControl_Loaded"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=viewModels:FlightPlanificatorViewModel}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <telerik:RadExpander IsExpanded="True">
+                <telerik:RadExpander.Header>
+                    <Label Content="Sélection d'un aéroport de destination" FontSize="14" FontWeight="Bold" />
+                </telerik:RadExpander.Header>
+                <telerik:RadExpander.Content>
+                    <DockPanel>
+                        <Label DockPanel.Dock="Top" FontWeight="Bold" FontSize="12">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Vols au départ de "/>
+                                <TextBlock Text="{Binding Path=AirportSelectorViewModel.DepartureHub.DepartureAirport}"/>
+                            </StackPanel>
+                        </Label>
+                        <uc:AirportSelector x:Name="LpAirportSelector" DataContext="{Binding Path=AirportSelectorViewModel}" Height="400" />
+                    </DockPanel>
+                </telerik:RadExpander.Content>
+            </telerik:RadExpander>
+
+
+            <telerik:RadExpander IsExpanded="True">
+                <telerik:RadExpander.Header>
+                    <Label Content="Configuration d'avion" FontSize="14" FontWeight="Bold" />
+                </telerik:RadExpander.Header>
+                <telerik:RadExpander.Content>
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="1" Content="Économique" HorizontalAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="2" Content="Affaire" HorizontalAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="3" Content="Première" HorizontalAlignment="Center" />
+                            <Label Grid.Row="0" Grid.Column="5" Content="Total Pax"  HorizontalAlignment="Center" />
+                            <Label Grid.Row="1" Grid.Column="0" Content="Demande de passager : " />
+                            <telerik:RadMaskedNumericInput Value="{Binding Path=PassengerDemand[Economic].Passenger}" Grid.Row="1" Grid.Column="1" Mask="#5" Width="80" SelectionOnFocus="SelectAll" TextMode="PlainText" />
+                            <telerik:RadMaskedNumericInput Value="{Binding Path=PassengerDemand[Business].Passenger}" Grid.Row="1" Grid.Column="2" Mask="#5" Width="80" SelectionOnFocus="SelectAll" TextMode="PlainText" />
+                            <telerik:RadMaskedNumericInput Value="{Binding Path=PassengerDemand[First].Passenger}" Grid.Row="1" Grid.Column="3" Mask="#5" Width="80" SelectionOnFocus="SelectAll" TextMode="PlainText" />
+                            <Label Grid.Row="1" Grid.Column="4" Content=" = " />
+                            <TextBox Text="{Binding Path=PassengerDemand.TotalPax, Mode=OneWay}" Grid.Row="1" Grid.Column="5" IsReadOnly="True" Width="80" TextAlignment="Center" />
+                        </Grid>
+                        <Label Content="Déterminer la meilleure configuration d'avion avec la configuration suivante :" Margin="0,25,0,0"/>
+                        <ucPlanification:PlaneConfigurationList DataContext="{Binding PlaneConfigurationList}" />
+                        <telerik:RadToggleButton IsChecked="{Binding Path=ShowAllConfigurations, Mode=TwoWay}" Content="Afficher toutes les configurations" Width="200" HorizontalAlignment="Left" Margin="5, 10,0,0" />
+                        <telerik:RadButton Command="{Binding FlightPlanificationCommand}" Content="Execute planification" Width="175" HorizontalAlignment="Right" Margin="5, 10,0,0" />
+                    </StackPanel>
+                </telerik:RadExpander.Content>
+            </telerik:RadExpander>
+
+
+            <telerik:RadExpander IsExpanded="True">
+                <telerik:RadExpander.Header>
+                    <Label Content="Résultats de la planification" FontSize="14" FontWeight="Bold" />
+                </telerik:RadExpander.Header>
+                <telerik:RadExpander.Content>
+                    <StackPanel>
+                        <telerik:RadGridView x:Name="grdConfigurationResult"
+                             AutoGenerateColumns="False" 
+                             ItemsSource="{Binding ConfigurationResult}"
+                             ShowGroupPanel="False"
+                             IsReadOnly="True"
+							 ColumnWidth="*">
+                            <telerik:RadGridView.Columns>
+                                <telerik:GridViewDataColumn Header="Pax" DataMemberBinding="{Binding Path=Pax}">
+                                    <telerik:GridViewDataColumn.Style>
+                                        <Style TargetType="telerik:GridViewDataColumn">
+                                            <Setter Property="TextAlignment" Value="Right" />
+                                        </Style>
+                                    </telerik:GridViewDataColumn.Style>
+                                </telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Remaining Pax" DataMemberBinding="{Binding Path=RemainingPax}">
+                                    <telerik:GridViewDataColumn.Style>
+                                        <Style TargetType="telerik:GridViewDataColumn">
+                                            <Setter Property="TextAlignment" Value="Right" />
+                                        </Style>
+                                    </telerik:GridViewDataColumn.Style>
+                                </telerik:GridViewDataColumn>
+                                <telerik:GridViewDataColumn Header="Configuration" DataMemberBinding="{Binding Path=Summary}" />
+                            </telerik:RadGridView.Columns>
+                        </telerik:RadGridView>
+                    </StackPanel>
+                </telerik:RadExpander.Content>
+            </telerik:RadExpander>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
