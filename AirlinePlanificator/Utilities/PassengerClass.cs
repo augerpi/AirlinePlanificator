@@ -1,7 +1,11 @@
-﻿namespace AirlinePlanificator.Utilities
+﻿using AirlinePlanificator.ViewModels.Utilities;
+
+namespace AirlinePlanificator.Utilities
 {
-    public class PassengerClass
+    public class PassengerClass : ObservableObject
     {
+        private int _passenger;
+
         public double ClassPaxValue 
         { 
             get 
@@ -22,7 +26,15 @@
 
         public PassengerClassType ClassType { get; protected set; }
 
-        public int Passenger { get; set; }
+        public int Passenger
+        {
+            get { return _passenger; }
+            set
+            {
+                _passenger = value; 
+                RaisePropertyChanged();
+            }
+        }
 
         public PassengerClass(PassengerClassType classType)
         {

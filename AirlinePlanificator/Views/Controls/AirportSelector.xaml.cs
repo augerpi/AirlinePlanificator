@@ -1,4 +1,7 @@
-﻿using AirlinePlanificator.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AirlinePlanificator.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using Telerik.Windows.Controls;
@@ -15,36 +18,6 @@ namespace AirlinePlanificator.Views.Controls
         public AirportSelector()
         {
             InitializeComponent();
-        }
-
-        private void DepartureFilter_EditorCreated(object sender, Telerik.Windows.Controls.Data.DataFilter.EditorCreatedEventArgs e)
-        {
-            switch (e.ItemPropertyDefinition.PropertyName)
-            {
-                case "ArrivalAirport.Category":
-                case "DepartureAirport.Category":
-                    ((RadComboBox)e.Editor).ItemsSource = ((AirportSelectorViewModel)DataContext).AvailablePlanes;
-                    break;
-            }
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            AirportSelectorViewModel context = DataContext as AirportSelectorViewModel;
-            if (context == null)
-                return;
-
-            if (context.DepartureHub == null)   //DepartureAirport Selection
-            {
-                grdAirportArrival.Visibility = Visibility.Collapsed;
-                grdAirportDeparture.Visibility = Visibility.Visible;
-            }
-            else    //ArrivalAirport Selection
-            {
-                grdAirportArrival.Visibility = Visibility.Visible;
-                grdAirportDeparture.Visibility = Visibility.Collapsed;
-            }
-
         }
 
         private void cboPlaneIndicator_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,11 +64,6 @@ namespace AirlinePlanificator.Views.Controls
             }
 
             grid.FilterDescriptors.ResumeNotifications();
-
-
-
         }
     }
-
-
 }

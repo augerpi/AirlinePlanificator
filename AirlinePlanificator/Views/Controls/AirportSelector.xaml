@@ -8,12 +8,13 @@
              xmlns:ViewModels="clr-namespace:AirlinePlanificator.ViewModels"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500" Loaded="UserControl_Loaded" 
+             d:DesignHeight="300" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=ViewModels:AirportSelectorViewModel}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <utilitiesConverter:ObjectPropertyVisibilityConverter x:Key="ObjectPropertyVisibilityConverter"/>
-        <utilitiesConverter:ObjectPropertyBooleanConverter x:Key="ObjectPropertyBooleanConverter"/>
+        <utilitiesConverter:ObjectToVisibilityConverter x:Key="ShowObjectNotNullConverter" />
+        <utilitiesConverter:ObjectToVisibilityConverter x:Key="HideObjectNotNullConverter" False="Visible" True="Hidden" />
+        <utilitiesConverter:ObjectToBooleanConverter x:Key="ObjectToBooleanConverter"/>
         <utilitiesConverter:NumberFormatConverter x:Key="IntFormatConverter" GroupSeperator=" " Type="{x:Type System:Int32}"  />
         <utilitiesConverter:NumberFormatConverter x:Key="DoubleFormatConverter" GroupSeperator=" " Type="{x:Type System:Double}" />
         <utilitiesConverter:NumberFormatConverter x:Key="DecimalFormatConverter" GroupSeperator=" " Type="{x:Type System:Decimal}" />
@@ -25,9 +26,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="0,3,0,5">
+        <TextBlock Grid.Row="0" Padding="5" Visibility="{Binding DepartureHub, Mode=OneWay, Converter={StaticResource ShowObjectNotNullConverter}}">
+            <Hyperlink Command="{Binding AdvancedAirportSelector}">Recherche avancée</Hyperlink>
+        </TextBlock>
+        <Grid Grid.Row="1" Margin="0,3,0,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -37,7 +42,7 @@
             </Grid.ColumnDefinitions>
             <Label Content="Avion témoin : " Grid.Row="0" Grid.Column="0" />
             <telerik:RadComboBox Name="cboPlaneIndicator"  
-                                 Grid.Row="0" Grid.Column="1" 
+                                 Grid.Row="1" Grid.Column="1" 
                                  ItemsSource="{Binding AvailablePlanes}" 
                                  SelectedItem="{Binding PlaneIndicator}" 
                                  Width="250px" 
@@ -50,7 +55,8 @@
 
         <telerik:RadGridView Name="grdAirportDeparture" 
                              SelectedItem="{Binding SelectedFlightLine}" 
-                             Grid.Row="1" 
+                             Visibility="{Binding DepartureHub, Mode=OneWay, Converter={ StaticResource HideObjectNotNullConverter}}"
+                             Grid.Row="2" 
                              AutoGenerateColumns="False" 
                              ShowGroupPanel="False" 
                              IsReadOnly="True"
@@ -58,7 +64,7 @@
             <telerik:RadGridView.Style>
                 <Style TargetType="{x:Type telerik:RadGridView}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DepartureHub, Converter={StaticResource ObjectPropertyBooleanConverter}}" Value="False">
+                        <DataTrigger Binding="{Binding DepartureHub, Converter={StaticResource ObjectToBooleanConverter}}" Value="False">
                             <Setter Property="ItemsSource" Value="{Binding AvailableFlightLines}" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -91,7 +97,8 @@
 
         <telerik:RadGridView x:Name="grdAirportArrival" 
                              SelectedItem="{Binding SelectedFlightLine}" 
-                             Grid.Row="1" 
+                             Visibility="{Binding DepartureHub, Mode=OneWay, Converter={ StaticResource ShowObjectNotNullConverter}}"
+                             Grid.Row="2" 
                              AutoGenerateColumns="False" 
                              ShowGroupPanel="False"
                              IsReadOnly="True"
@@ -99,7 +106,7 @@
             <telerik:RadGridView.Style>
                 <Style TargetType="{x:Type telerik:RadGridView}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding DepartureHub, Converter={StaticResource ObjectPropertyBooleanConverter}}" Value="True">
+                        <DataTrigger Binding="{Binding DepartureHub, Converter={StaticResource ObjectToBooleanConverter}}" Value="True">
                             <Setter Property="ItemsSource" Value="{Binding AvailableFlightLines}" />
                         </DataTrigger>
                     </Style.Triggers>

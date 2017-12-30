@@ -97,6 +97,7 @@
     <Compile Include="Utilities\FlightCalculator.cs" />
     <Compile Include="Utilities\PassengerClass.cs" />
     <Compile Include="Utilities\ReflectorPropertyName.cs" />
+    <Compile Include="ViewModels\AdvancedAirportSelectorViewModel.cs" />
     <Compile Include="ViewModels\AirportViewModel.cs" />
     <Compile Include="ViewModels\FlightLineViewModel.cs" />
     <Compile Include="ViewModels\FlightPlanifications\PlaneConfiguration.cs" />
@@ -110,6 +111,9 @@
     <Compile Include="ViewModels\HubViewModel.cs" />
     <Compile Include="ViewModels\AirportSelectorViewModel.cs" />
     <Compile Include="ViewModels\PlaneViewModel.cs" />
+    <Compile Include="Views\Controls\AdvancedAirportSelector.xaml.cs">
+      <DependentUpon>AdvancedAirportSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Controls\AirportSelector.xaml.cs">
       <DependentUpon>AirportSelector.xaml</DependentUpon>
     </Compile>
@@ -125,6 +129,9 @@
     <Compile Include="Views\LinePlanificator.xaml.cs">
       <DependentUpon>LinePlanificator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AdvancedAirportSelector.xaml.cs">
+      <DependentUpon>AdvancedAirportSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectAirport.xaml.cs">
       <DependentUpon>SelectAirport.xaml</DependentUpon>
     </Compile>
@@ -134,12 +141,13 @@
     <Compile Include="ViewModels\Utilities\RelayCommand.cs" />
     <Compile Include="Views\Utilities\Converter\doubleToHour.cs" />
     <Compile Include="Views\Utilities\Converter\DoubleToString.cs" />
+    <Compile Include="Views\Utilities\Converter\ObjectToVisibilityConverter.cs" />
     <Compile Include="Views\Utilities\EditorTemplateRule.cs" />
     <Compile Include="Views\Utilities\EditorTemplateSelector.cs" />
     <Compile Include="Views\Utilities\LiveShaping.cs" />
     <Compile Include="Views\Utilities\Converter\NumberFormatConverter.cs" />
-    <Compile Include="Views\Utilities\Converter\ObjectPropertyBooleanConverter.cs" />
-    <Compile Include="Views\Utilities\Converter\ObjectPropertyVisibilityConverter.cs" />
+    <Compile Include="Views\Utilities\Converter\ObjectToBooleanConverter.cs" />
+    <Compile Include="Views\Utilities\Converter\ObjectNullToGenericConverter.cs" />
     <Compile Include="Views\Utilities\Converter\PlaneViewModelToNumericConverter.cs" />
     <Page Include="Views\Company.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +164,10 @@
       <DependentUpon>Company.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Controls\AdvancedAirportSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Controls\AirportSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,6 +187,10 @@
     <Page Include="Views\LinePlanificator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AdvancedAirportSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SelectAirport.xaml">
       <SubType>Designer</SubType>

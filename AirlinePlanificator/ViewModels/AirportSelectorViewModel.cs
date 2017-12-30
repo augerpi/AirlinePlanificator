@@ -1,16 +1,29 @@
 ﻿using AirlinePlanificator.ViewModels.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace AirlinePlanificator.ViewModels
 {
-    public class AirportSelectorViewModel : ObservableObject
+    public interface IAirportSelectorViewModel
+    {
+        HubViewModel DepartureHub { get; }
+        CompanyViewModel Company { get; }
+        PlaneViewModel PlaneIndicator { get; set; }
+        FlightLineViewModel SelectedFlightLine { get; set; }
+        List<PlaneViewModel> AvailablePlanes { get; }
+        List<FlightLineViewModel> AvailableFlightLines{ get; }
+        List<string> AvailableCountries { get; }
+    }
+
+    public class AirportSelectorViewModel : ObservableObject, IAirportSelectorViewModel
     {
         #region Members
-        protected List<PlaneViewModel> _availablePlane;
-        protected List<FlightLineViewModel> _availableFlightLines;
-        protected List<string> _availableCountries;
-        protected PlaneViewModel _planeIndicator;
+        private List<PlaneViewModel> _availablePlane;
+        private List<FlightLineViewModel> _availableFlightLines;
+        private List<string> _availableCountries;
+        private PlaneViewModel _planeIndicator;
+        private FlightLineViewModel _selectedFlightLine;
         #endregion
 
         #region Properties
@@ -28,7 +41,17 @@ namespace AirlinePlanificator.ViewModels
                 }
             }
         }
-        public FlightLineViewModel SelectedFlightLine { get; set; }
+
+        public FlightLineViewModel SelectedFlightLine
+        {
+            get { return _selectedFlightLine; }
+            set
+            {
+                _selectedFlightLine = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public List<PlaneViewModel> AvailablePlanes
         {
             get
@@ -101,6 +124,28 @@ namespace AirlinePlanificator.ViewModels
 
         #endregion
 
+        #region Commands
+        #region AdvancedAirportSelector
+        void AdvancedAirportSelectorExecute()
+        {
+            Views.AdvancedAirportSelector window = new Views.AdvancedAirportSelector
+            {
+                DataContext = new AdvancedAirportSelectorViewModel(this)
+            };
+            bool? result = window.ShowDialog();
+            if (result.HasValue && result.Value)
+            {
 
+            }
+        }
+
+        bool CanAdvancedAirportSelectorExecute()
+        {
+            return DepartureHub != null;
+        }
+
+        public ICommand AdvancedAirportSelector { get { return new RelayCommand(AdvancedAirportSelectorExecute, CanAdvancedAirportSelectorExecute); } }
+        #endregion
+        #endregion Commands
     }
 }

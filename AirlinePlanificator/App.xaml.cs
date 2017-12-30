@@ -9,8 +9,10 @@ namespace AirlinePlanificator
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Views.Company wnd = new Views.Company();
-            wnd.DataContext = new ViewModels.CompanyViewModel();
+            Views.Company wnd = new Views.Company
+            {
+                DataContext = new ViewModels.CompanyViewModel()
+            };
             wnd.Show();
         }
     }
