@@ -14,8 +14,8 @@
         d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False, Type=ViewModels:CompanyViewModel}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <utilitiesConverter:ObjectPropertyVisibilityConverter x:Key="ObjectPropertyVisibilityConverter"/>
-        <utilitiesConverter:ObjectPropertyBooleanConverter x:Key="ObjectPropertyBooleanConverter"/>
+        <utilitiesConverter:ObjectToVisibilityConverter x:Key="ObjectPropertyVisibilityConverter"/>
+        <utilitiesConverter:ObjectToBooleanConverter x:Key="ObjectPropertyBooleanConverter"/>
         <utilitiesConverter:NumberFormatConverter x:Key="IntFormatConverter" GroupSeperator=" " Type="{x:Type System:Int32}"  />
         <utilitiesConverter:NumberFormatConverter x:Key="DoubleFormatConverter" GroupSeperator=" " Type="{x:Type System:Double}" />
         <utilitiesConverter:NumberFormatConverter x:Key="DecimalFormatConverter" GroupSeperator=" " Type="{x:Type System:Decimal}" />

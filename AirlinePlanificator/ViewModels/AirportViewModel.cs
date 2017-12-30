@@ -138,17 +138,7 @@ namespace AirlinePlanificator.ViewModels
         #endregion
 
         #region Commands
-        //void CommandExecute()
-        //{
 
-        //}
-
-        //bool CanCommandExecute()
-        //{
-        //    return true;
-        //}
-
-        //public ICommand Command { get { return new RelayCommand(CommandExecute, CanCommandExecute); } }
 
         #endregion
     }
